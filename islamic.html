@@ -147,7 +147,7 @@ nav.scrolled{
 /* ── CONTENT ── */
 #content{
   position:relative;
-  padding:5rem 0;
+  padding:2.2rem 0 3rem;
   background:var(--black);
 }
 .container{
@@ -155,9 +155,15 @@ nav.scrolled{
   width:100%;max-width:1200px;margin:0 auto;padding:0 5%;
 }
 .about_gallery{
-  margin-bottom:4rem;
+  margin-bottom:.75rem;
 }
-.section-header{margin-bottom:3rem}
+.section-header{
+  margin-bottom:.9rem;
+}
+.section-header .description{
+  margin-top:.7rem;
+  margin-bottom:0;
+}
 .sec-label{
   font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;
   color:var(--gold);margin-bottom:1rem;
@@ -174,7 +180,7 @@ nav.scrolled{
 
 .description{
   font-size:.95rem;font-weight:300;color:rgba(245,242,238,.8);
-  line-height:1.9;margin-bottom:3rem;max-width:720px;
+  line-height:1.6;margin-bottom:1rem;max-width:700px;
 }
 
 /* ── GALLERY ── */
@@ -316,6 +322,10 @@ footer p{font-size:.72rem;color:var(--grey);letter-spacing:.08em}
 
 /* ── RESPONSIVE ── */
 @media(max-width:768px){
+  #content{padding:1.4rem 0 2.2rem}
+  .section-header{margin-bottom:.7rem}
+  .about_gallery{margin-bottom:.5rem}
+  #hero{min-height:40vh}
   .nav-links{
     position:fixed;top:var(--nav-h);right:0;
     background:rgba(8,8,8,.97);
@@ -382,15 +392,16 @@ footer p{font-size:.72rem;color:var(--grey);letter-spacing:.08em}
       <h2 class="sec-title">About <em>Islamic Style</em></h2>
       <div class="sec-line"></div>
     </div>
-    <p class="description reveal">Islamic Style design reflects the rich cultural heritage of Islamic architecture through intricate patterns, geometric designs, and spiritual symbolism. This style features ornate decorations, domes, arches, and muqarnas (honeycomb vaulting). Open courtyards, fountains, and shaded areas create serene environments that promote contemplation and community gathering.</p>
+    <p class="description reveal">Islamic design unites geometry, heritage, and serenity in elegant, timeless spaces.</p>
 
     <div class="about_gallery reveal">
       <h2 class="sec-title">About <em>Gallery</em></h2>
       <div class="sec-line"></div>
       
     </div>
-    <p>A private residential project designed in our signature Islamic Style. The project showcases intricate patterns, geometric designs, and spiritual symbolism to create a rich and culturally immersive living environment.<br>location : Palm Hills</p>
-    <div class="section-header reveal" style="margin-top:4rem">
+    <!-- <p>A private residential project designed in our signature Islamic Style. The project showcases intricate patterns, geometric designs, and spiritual symbolism to create a rich and culturally immersive living environment.<br>Location : Lavista City | New Capital</p> -->
+    <p>Discover Islamic interiors defined by rich heritage, intricate craftsmanship, and timeless beauty.<br>Location : Lavista City | New Capital</p>
+    <div class="section-header reveal" style="margin-top:1.5rem">
       <p class="sec-label">Gallery</p>
       <h2 class="sec-title">Project <em>Gallery</em></h2>
       <div class="sec-line"></div>
