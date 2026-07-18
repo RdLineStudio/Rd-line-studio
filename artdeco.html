@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>New Classic | RD Line Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#c9a55a;
+  --gold-light:#e8d5a3;
+  --gold-dark:#9a7a3a;
+  --black:#080808;
+  --dark:#111111;
+  --dark2:#1a1a1a;
+  --grey:#888;
+  --light-grey:#bbb;
+  --white:#f5f2ee;
+  --nav-h:72px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  background:var(--black);
+  color:var(--white);
+  font-family:'Poppins',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+}
+::selection{background:var(--gold);color:var(--black)}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:2px}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:var(--nav-h);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;
+  transition:background .4s,backdrop-filter .4s,box-shadow .4s;
+}
+nav.scrolled{
+  background:rgba(8,8,8,.92);
+  backdrop-filter:blur(14px);
+  box-shadow:0 1px 0 rgba(201,165,90,.15);
+}
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;font-weight:300;letter-spacing:.12em;
+  color:var(--white);text-decoration:none;
+  display:flex;align-items:center;gap:.6rem;
+}
+.logo_img{
+  width:120px;
+  height:120px;
+  text-align:center;
+  justify-content:center;
+  object-fit:contain;
+  background: transparent;
+
+}
+.logo-mark{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.8rem;font-weight:300;
+  color:var(--gold);border:1px solid var(--gold);
+  width:42px;height:42px;display:flex;align-items:center;justify-content:center;
+  line-height:1;
+}
+.logo-text{
+  font-size:1.1rem;letter-spacing:.18em;font-weight:400;
+  color:var(--white);
+}
+.nav-links{
+  display:flex;gap:2.5rem;list-style:none;
+}
+.nav-links a{
+  font-size:.78rem;font-weight:400;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--light-grey);text-decoration:none;
+  transition:color .3s;position:relative;padding-bottom:4px;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:0;left:0;width:0;height:1px;
+  background:var(--gold);transition:width .3s;
+}
+.nav-links a:hover,
+.nav-links a.active{color:var(--gold)}
+.nav-links a.active::after,
+.nav-links a:hover::after{width:100%}
+.nav-toggle{
+  display:none;background:none;border:none;cursor:pointer;
+  flex-direction:column;gap:5px;padding:4px;
+}
+.nav-toggle span{
+  display:block;width:24px;height:1.5px;background:var(--white);
+  transition:transform .3s,opacity .3s;
+}
+
+/* ── HERO ── */
+#hero{
+  position:relative;
+  min-height:60vh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  padding-top:var(--nav-h);
+}
+#hero .bg{
+  position:absolute;inset:0;
+  background-image:url('img/artdeco/ad(bg).jpg');
+  background-size:cover;background-position:center;background-attachment:fixed;
+  will-change:transform;
+}
+#hero .overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(8,8,8,.92) 0%,rgba(8,8,8,.7) 50%,rgba(8,8,8,.9) 100%);
+}
+.hero-content{
+  position:relative;z-index:2;text-align:center;
+  max-width:800px;padding:0 5%;
+}
+.hero-eyebrow{
+  font-size:.7rem;letter-spacing:.4em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.5rem;
+  display:flex;align-items:center;justify-content:center;gap:1rem;
+  opacity:0;animation:fadeUp .8s .2s forwards;
+}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:40px;height:1px;background:var(--gold)}
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.5rem,6vw,4.5rem);
+  font-weight:300;line-height:1.1;
+  letter-spacing:-.01em;
+  margin-bottom:1rem;
+  opacity:0;animation:fadeUp .8s .4s forwards;
+}
+.hero-title em{font-style:italic;color:var(--gold)}
+.hero-desc{
+  font-size:clamp(.95rem,1.8vw,1.1rem);font-weight:300;
+  color:rgba(245,242,238,.75);line-height:1.8;
+  max-width:600px;margin:0 auto 2rem;
+  opacity:0;animation:fadeUp .8s .6s forwards;
+}
+
+/* ── CONTENT ── */
+#content{
+  position:relative;
+  padding:5rem 0;
+  background:var(--black);
+}
+.container{
+  position:relative;z-index:2;
+  width:100%;max-width:1200px;margin:0 auto;padding:0 5%;
+}
+
+.about_gallery{
+  margin-bottom:.75rem;
+}
+.section-header{
+  margin-bottom:.9rem;
+}
+.section-header .description{
+  margin-top:.7rem;
+  margin-bottom:0;
+}
+.sec-label{
+  font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1rem;
+  display:flex;align-items:center;gap:1rem;
+}
+.sec-label::before{content:'';width:30px;height:1px;background:var(--gold)}
+.sec-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.8rem,4vw,2.8rem);
+  font-weight:300;line-height:1.2;
+}
+.sec-title em{font-style:italic;color:var(--gold)}
+.sec-line{width:60px;height:1px;background:var(--gold);margin-top:1.5rem}
+
+.description{
+  font-size:.95rem;font-weight:300;color:rgba(245,242,238,.8);
+  line-height:1.6;margin-bottom:1rem;max-width:700px;
+}
+
+/* ── GALLERY ── */
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  /* gap:1.5px; */
+  gap: 2px;
+  /* background:rgba(201,165,90,.15); */
+  background:var(--black);
+  margin-bottom:4rem;
+}
+.gallery-item{
+  position:relative;overflow:hidden;
+  background:var(--dark2);
+  aspect-ratio:4/3;
+  border:2px solid rgba(201,165,90,.3);
+  cursor:pointer;
+  transition:border-color .3s,box-shadow .3s;
+}
+.gallery-item:hover{
+  border-color:rgba(201,165,90,.6);
+  box-shadow:0 0 20px rgba(201,165,90,.2);
+}
+.gallery-item img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .7s cubic-bezier(.25,.46,.45,.94),filter .7s;
+  filter:grayscale(25%);
+}
+.gallery-item:hover img{transform:scale(1.06);filter:grayscale(0%)}
+
+/* ── LIGHTBOX ── */
+.lightbox{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(8,8,8,.95);z-index:2000;
+  overflow:hidden;animation:fadeIn .3s;
+  padding:20px;
+  /* نمنع إيماءات المتصفح تماماً داخل منطقة اللايت بوكس لتجنب زووم الموقع الخارجي */
+  touch-action: none; 
+}
+.lightbox.active{display:flex}
+.lightbox-content{
+  position:relative;
+  max-width:85vw;
+  margin: auto;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.lightbox-img{
+  max-width:100%;
+  max-height:85vh;
+  object-fit:contain;
+  width:auto;height:auto;
+  border:3px solid var(--gold);
+  box-shadow:0 0 60px rgba(201,165,90,.4);
+  /* إضافة ترانزيشن خفيف لجعل حركة تكبير الصورة ناعمة جداً */
+  transition: transform 0.05s ease-out;
+  will-change: transform;
+}
+.lightbox-close{
+  position:absolute;top:30px;right:30px;
+  background:rgba(201,165,90,.2);border:1px solid var(--gold);
+  color:var(--gold);font-size:2rem;width:50px;height:50px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .3s,transform .3s;z-index:10;
+}
+.lightbox-close:hover{
+  background:var(--gold);color:var(--black);
+  transform:scale(1.1);
+}
+.lightbox-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  background:rgba(201,165,90,.2);border:1px solid var(--gold);
+  color:var(--gold);width:50px;height:50px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .3s,transform .3s;z-index:10;
+}
+.lightbox-arrow:hover{
+  background:var(--gold);color:var(--black);
+  transform:scale(1.15);
+}
+.lightbox-arrow-prev{
+  left:30px;
+}
+.lightbox-arrow-next{
+  right:30px;
+}
+.lightbox-arrow svg{
+  width:24px;height:24px;
+  stroke-width:2.5;
+}
+.lightbox-info{
+  position:absolute;bottom:30px;left:30px;
+  color:var(--gold);font-size:.85rem;
+  background:rgba(8,8,8,.8);padding:.8rem 1.2rem;
+  border:1px solid rgba(201,165,90,.3);
+}
+@keyframes fadeIn{
+  from{opacity:0}to{opacity:1}
+}
+
+/* ── BACK BUTTON ── */
+.back-wrap{
+  display:flex;justify-content:center;
+  margin-top:2rem;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.85rem 2.2rem;font-size:.78rem;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;text-decoration:none;
+  cursor:pointer;border:none;transition:all .35s;
+}
+.btn-primary{
+  background:var(--gold);color:var(--black);
+}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-2px)}
+.btn svg{width:16px;height:16px;transition:transform .3s}
+.btn:hover svg{transform:translateX(-4px)}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--black);
+  border-top:1px solid rgba(201,165,90,.1);
+  text-align:center;padding:2.5rem 5%;
+  display:flex;flex-direction:column;align-items:center;gap:.8rem;
+}
+footer .logo-f{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.3rem;font-weight:300;letter-spacing:.15em;color:var(--white);
+}
+footer .logo-f span{color:var(--gold)}
+footer p{font-size:.72rem;color:var(--grey);letter-spacing:.08em}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  #hero{min-height:40vh}
+  #content{padding:1.4rem 0 2.2rem}
+  .section-header{margin-bottom:.7rem}
+  .about_gallery{margin-bottom:.5rem}
+  .nav-links{
+    position:fixed;top:var(--nav-h);right:0;
+    background:rgba(8,8,8,.97);
+    flex-direction:column;align-items:flex-end;
+    padding:2rem 5% 3rem;gap:1.8rem;width:240px;
+    transform:translateX(100%);
+    transition:transform .4s cubic-bezier(.77,0,.18,1);
+    border-left:1px solid rgba(201,165,90,.15);
+  }
+  .nav-links.open{transform:translateX(0)}
+  .nav-toggle{display:flex}
+  .nav-toggle.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+  .nav-toggle.open span:nth-child(2){opacity:0}
+  .nav-toggle.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+  .gallery-grid{grid-template-columns:1fr;gap:1.5px}
+  
+  .lightbox-content{max-width:95vw; max-height:80vh;}
+  .lightbox-img{max-height:75vh;width:100%}
+  .lightbox-arrow{width:40px;height:40px;opacity:0.7}
+  .lightbox-arrow-prev{left:10px}
+  .lightbox-arrow-next{right:10px}
+  .lightbox-close{top:15px;right:15px;width:40px;height:40px}
+}
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <a href="index.html" class="logo">
+    <!-- <span class="logo-mark">RD</span>
+    <span class="logo-text">Line Studio</span> -->
+    <img src="img/logo_img/image2-removebg-preview.png" alt="RD Line Studio Logo" class="logo_img">
+  </a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About Us</a></li>
+    <li><a href="index.html#styles" class="active">Styles</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="bg" id="heroBg"></div>
+  <div class="overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Signature Style</p>
+    <h1 class="hero-title">Art Deco Style</h1>
+    <!-- <h1 class="hero-title">Art Deco</h1> -->
+  </div>
+</section>
+
+<!-- ── CONTENT ── -->
+<section id="content">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="sec-label">Style Details</p>
+      <h2 class="sec-title">About <em>Art Deco</em></h2>
+      <div class="sec-line"></div>
+    </div>
+    <p class="description reveal">Art Deco blends bold geometry, rich materials, and elegant glamour for striking, timeless interiors.</p>
+
+    <div class="about_gallery reveal">
+      <h2 class="sec-title">About <em>Gallery</em></h2>
+      <div class="sec-line"></div>
+      
+    </div>
+    <!-- <p>A private residential project designed in our signature Art Deco style. The project features elegant proportions, rich materials, and timeless details that create a sophisticated and inviting living environment.<br>Location : Stand alone El Ain | United Arab Emirates</p> -->
+    <p>Discover Art Deco interiors defined by bold geometry, luxurious materials, and timeless glamour.<br>Location : Standalone Villa | Al Ain, United Arab Emirates</p>
+
+    <div class="section-header reveal" style="margin-top:1.5rem">
+      <p class="sec-label">Gallery</p>
+      <h2 class="sec-title">Project <em>Gallery</em></h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="gallery-item" data-img="img/artdeco/ad1.jpg" data-alt="Art Deco 1"><img src= "img/artdeco/ad1.jpg"></div>
+      <div class="gallery-item" data-img="img/artdeco/ad2.png" data-alt="Art Deco 2"><img src= "img/artdeco/ad2.png"></div>
+      <div class="gallery-item" data-img="img/artdeco/ad3.jpg" data-alt="Art Deco 3"><img src= "img/artdeco/ad3.jpg"></div>
+      <div class="gallery-item" data-img="img/artdeco/ad4.jpg" data-alt="Art Deco 4"><img src= "img/artdeco/ad4.jpg"></div>
+      <div class="gallery-item" data-img="img/artdeco/ad5.jpg" data-alt="Art Deco 5"><img src= "img/artdeco/ad5.jpg"></div>
+      <div class="gallery-item" data-img="img/artdeco/ad6.jpg" data-alt="Art Deco 6"><img src= "img/artdeco/ad6.jpg"></div>
+      <div class="gallery-item" data-img="img/artdeco/ad7.jpg" data-alt="Art Deco 7"><img src= "img/artdeco/ad7.jpg"></div>
+      <div class="gallery-item" data-img="img/artdeco/ad8.jpg" data-alt="Art Deco 8"><img src= "img/artdeco/ad8.jpg"></div>
+      <div class="gallery-item" data-img="img/artdeco/ad9.jpg" data-alt="Art Deco 9"><img src= "img/artdeco/ad9.jpg"></div>
+    </div>
+
+    <!-- ── LIGHTBOX ── -->
+    <div class="lightbox" id="lightbox">
+      <div class="lightbox-content">
+        <button class="lightbox-close" id="lightboxClose">&times;</button>
+        <button class="lightbox-arrow lightbox-arrow-prev" id="lightboxPrev" aria-label="Previous image">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <img class="lightbox-img" id="lightboxImg" src="" alt="Full size image"/>
+        <button class="lightbox-arrow lightbox-arrow-next" id="lightboxNext" aria-label="Next image">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 19l7-7-7-7"/></svg>
+        </button>
+        <div class="lightbox-info"><span id="lightboxCounter"></span></div>
+      </div>
+    </div>
+
+    <div class="back-wrap reveal">
+      <a href="index.html#styles" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back To Home
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p class="logo-f">RD Line<span>.</span> Studio</p>
+  <p>Architecture &amp; Interior Design</p>
+  <p>© 2026 RD Line Studio. All Rights Reserved.</p>
+</footer>
+
+<script>
+(function(){
+
+  /* ── NAVBAR scroll ── */
+  const nav=document.getElementById('navbar');
+  function onScroll(){
+    nav.classList.toggle('scrolled',window.scrollY>60);
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+
+  /* ── Mobile nav toggle ── */
+  const toggle=document.getElementById('navToggle');
+  const linksEl=document.getElementById('navLinks');
+  toggle.addEventListener('click',()=>{
+    toggle.classList.toggle('open');
+    linksEl.classList.toggle('open');
+  });
+
+  /* ── Intersection Observer for reveal ── */
+  const revealObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+      }
+    });
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+
+  document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+  /* ── LIGHTBOX ── */
+  const lightbox=document.getElementById('lightbox');
+  const lightboxImg=document.getElementById('lightboxImg');
+  const lightboxClose=document.getElementById('lightboxClose');
+  const lightboxCounter=document.getElementById('lightboxCounter');
+  const galleryItems=document.querySelectorAll('.gallery-item');
+  let currentIndex=0;
+
+  // متغيرات تتبع حالة التكبير المخصص للصورة (Pinch-to-zoom)
+  let currentScale = 1;
+  let startHypot = 0;
+  let isZooming = false;
+
+  galleryItems.forEach((item,index)=>{
+    item.addEventListener('click',()=>{
+      currentIndex=index;
+      openLightbox(item);
+    });
+  });
+
+  function openLightbox(item){
+    resetZoom(); // تصفير مستوى الزووم عند فتح أي صورة جديدة
+    lightboxImg.src=item.dataset.img;
+    lightboxCounter.textContent=`${currentIndex+1} / ${galleryItems.length}`;
+    lightbox.classList.add('active');
+    document.body.style.overflow='hidden';
+  }
+
+  function closeLightbox(){
+    lightbox.classList.remove('active');
+    document.body.style.overflow='auto';
+    resetZoom();
+  }
+
+  function resetZoom() {
+    currentScale = 1;
+    lightboxImg.style.transform = `scale(${currentScale})`;
+  }
+
+  lightboxClose.addEventListener('click',closeLightbox);
+  document.getElementById('lightboxPrev').addEventListener('click',()=>{
+    resetZoom();
+    currentIndex=(currentIndex-1+galleryItems.length)%galleryItems.length;
+    openLightbox(galleryItems[currentIndex]);
+  });
+  document.getElementById('lightboxNext').addEventListener('click',()=>{
+    resetZoom();
+    currentIndex=(currentIndex+1)%galleryItems.length;
+    openLightbox(galleryItems[currentIndex]);
+  });
+  lightbox.addEventListener('click',(e)=>{
+    if(e.target===lightbox)closeLightbox();
+  });
+
+  document.addEventListener('keydown',(e)=>{
+    if(e.key==='Escape')closeLightbox();
+    if(e.key==='ArrowRight'){
+      resetZoom();
+      currentIndex=(currentIndex+1)%galleryItems.length;
+      openLightbox(galleryItems[currentIndex]);
+    }
+    if(e.key==='ArrowLeft'){
+      resetZoom();
+      currentIndex=(currentIndex-1+galleryItems.length)%galleryItems.length;
+      openLightbox(galleryItems[currentIndex]);
+    }
+  });
+
+  /* ── TOUCH SWIPE & CUSTOM PINCH TO ZOOM SYSTEM ── */
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  lightbox.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+          // حالة صباع واحد: لتمرير الصور (Swipe)
+          isZooming = false;
+          touchStartX = e.changedTouches[0].screenX;
+      } else if (e.touches.length === 2) {
+          // حالة إصبعين: بدء عملية الزووم الذكي للصورة
+          isZooming = true;
+          // حساب المسافة البدائية بين الإصبعين باستخدام نظرية فيثاغورس
+          startHypot = Math.hypot(
+              e.touches[0].clientX - e.touches[1].clientX,
+              e.touches[0].clientY - e.touches[1].clientY
+          );
+      }
+  }, { passive: false });
+
+  lightbox.addEventListener('touchmove', (e) => {
+      // نمنع تماماً أي حركة افتراضية للمتصفح لتفادي زووم الصفحة كلها
+      e.preventDefault(); 
+
+      if (e.touches.length === 1 && !isZooming && currentScale === 1) {
+          // حركة السحب العادية تعمل فقط إذا لم نكن مكبّرين الصورة
+          touchEndX = e.touches[0].screenX;
+      } else if (e.touches.length === 2 && isZooming) {
+          // عملية التكبير بالإصبعين
+          const currentHypot = Math.hypot(
+              e.touches[0].clientX - e.touches[1].clientX,
+              e.touches[0].clientY - e.touches[1].clientY
+          );
+          
+          // نسبة التغيير في المسافة بين الإصبعين
+          const ratio = currentHypot / startHypot;
+          
+          // حساب قيمة الـ Scale الجديدة والتحكم بحدود التكبير (بين 1x كحد أدنى و 4x كحد أقصى)
+          let newScale = currentScale * ratio;
+          if (newScale < 1) newScale = 1;
+          if (newScale > 4) newScale = 4;
+          
+          lightboxImg.style.transform = `scale(${newScale})`;
+          
+          // تحديث المسافة لتصبح مرجعية للحركة القادمة مباشرة
+          startHypot = currentHypot;
+          currentScale = newScale;
+      }
+  }, { passive: false });
+
+  lightbox.addEventListener('touchend', (e) => {
+      if (e.touches.length === 0) {
+          if (!isZooming && currentScale === 1) {
+              handleSwipe();
+          }
+          isZooming = false;
+      }
+  }, { passive: true });
+
+  function handleSwipe() {
+      const swipeThreshold = 80; 
+      if (Math.abs(touchStartX - touchEndX) > swipeThreshold) {
+          if (touchStartX > touchEndX) {
+              document.getElementById('lightboxNext').click();
+          } else {
+              document.getElementById('lightboxPrev').click();
+          }
+      }
+  }
+
+})();
+</script>
+</body>
+</html>
