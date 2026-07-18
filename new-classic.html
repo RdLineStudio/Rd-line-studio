@@ -147,7 +147,7 @@ nav.scrolled{
 /* ── CONTENT ── */
 #content{
   position:relative;
-  padding:5rem 0;
+  padding:2.2rem 0 3rem;
   background:var(--black);
 }
 .container{
@@ -156,9 +156,15 @@ nav.scrolled{
 }
 
 .about_gallery{
-  margin-bottom:4rem;
+  margin-bottom:.75rem;
 }
-.section-header{margin-bottom:3rem}
+.section-header{
+  margin-bottom:.9rem;
+}
+.section-header .description{
+  margin-top:.7rem;
+  margin-bottom:0;
+}
 .sec-label{
   font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;
   color:var(--gold);margin-bottom:1rem;
@@ -175,7 +181,7 @@ nav.scrolled{
 
 .description{
   font-size:.95rem;font-weight:300;color:rgba(245,242,238,.8);
-  line-height:1.9;margin-bottom:3rem;max-width:720px;
+  line-height:1.6;margin-bottom:1rem;max-width:700px;
 }
 
 /* ── GALLERY ── */
@@ -319,6 +325,10 @@ footer p{font-size:.72rem;color:var(--grey);letter-spacing:.08em}
 
 /* ── RESPONSIVE ── */
 @media(max-width:768px){
+  #content{padding:1.4rem 0 2.2rem}
+  .section-header{margin-bottom:.7rem}
+  .about_gallery{margin-bottom:.5rem}
+  #hero{min-height:40vh}
   .nav-links{
     position:fixed;top:var(--nav-h);right:0;
     background:rgba(8,8,8,.97);
@@ -384,16 +394,17 @@ footer p{font-size:.72rem;color:var(--grey);letter-spacing:.08em}
       <h2 class="sec-title">About <em>Neo Classic</em></h2>
       <div class="sec-line"></div>
     </div>
-    <p class="description reveal">Neo Classic design honors tradition with a modern sensibility, featuring ornate details, rich fabrics, and symmetrical design language. This style blends crown moldings, wainscoting, and crystal chandeliers with contemporary color palettes and streamlined furniture. The result is a timeless interior that feels grand yet approachable, elegant yet comfortable.</p>
+    <p class="description reveal">Neo Classic combines symmetry, rich detail, and elegance for graceful, elevated interiors.</p>
 
     <div class="about_gallery reveal">
       <h2 class="sec-title">About <em>Gallery</em></h2>
       <div class="sec-line"></div>
       
     </div>
-    <p>A private residential project designed in our signature Neo Classic style. The project features elegant proportions, rich materials, and timeless details that create a sophisticated and inviting living environment.<br>location : New Cairo</p>
+    <!-- <p>A private residential project designed in our signature Neo Classic style. The project features elegant proportions, rich materials, and timeless details that create a sophisticated and inviting living environment.<br>Location1 : Lavista City | New Capital <br> Location2 : Address East | New Cairo</p> -->
+    <p>Explore Neo Classic projects featuring timeless elegance and refined architectural details<br>Location1 : Lavista City | New Capital <br> Location2 : Address East | New Cairo</p>
 
-    <div class="section-header reveal" style="margin-top:4rem">
+    <div class="section-header reveal" style="margin-top:1.5rem">
       <p class="sec-label">Gallery</p>
       <h2 class="sec-title">Project <em>Gallery</em></h2>
       <div class="sec-line"></div>
