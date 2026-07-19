@@ -622,6 +622,7 @@ footer p{font-size:.72rem;color:var(--grey);letter-spacing:.08em}
       </div>
       <div class="project-card reveal">
         <img src="img/artdeco/ad8.jpg" alt="Art Deco Style" loading="lazy"/>
+        <!-- <img src="img/artdeco/ad1.jpg" alt="Art Deco Style" loading="lazy"/> -->
         <div class="project-info">
           <p class="project-cat">Signature Style</p>
           <h3 class="project-name">Art Deco Style</h3>
@@ -684,45 +685,48 @@ footer p{font-size:.72rem;color:var(--grey);letter-spacing:.08em}
           </a>
         </div>
       </div>
-      <div class="contact-form reveal" id="contactForm">
+
+      <!-- التعديل هنا: جعلنا الفورم هو الـ Wrapper الأساسي وأضفنا الـ name لكل input -->
+      <form action="https://formspree.io/f/xjgnwdok" method="POST" class="contact-form reveal" id="contactForm">
         <div class="form-row">
           <div class="form-group">
             <label for="fname">First Name</label>
-            <input type="text" id="fname" placeholder="John"/>
+            <input type="text" id="fname" name="First Name" placeholder="John" required/>
           </div>
           <div class="form-group">
             <label for="lname">Last Name</label>
-            <input type="text" id="lname" placeholder="Doe"/>
+            <input type="text" id="lname" name="Last Name" placeholder="Doe" required/>
           </div>
         </div>
         <div class="form-group">
           <label for="email">Email Address</label>
-          <input type="email" id="email" placeholder="john@example.com"/>
+          <input type="email" id="email" name="Email" placeholder="john@example.com" required/>
         </div>
         <div class="form-group">
           <label for="project">Project Type</label>
-          <select id="project">
+          <select id="project" name="Project Type">
             <option value="" disabled selected>Select project type</option>
-            <option>Residential Villa</option>
-            <option>Interior Design</option>
-            <option>Commercial Space</option>
-            <option>Hospitality</option>
-            <option>Construction Management</option>
-            <option>Other</option>
+            <option value="Residential Villa">Residential Villa</option>
+            <option value="Interior Design">Interior Design</option>
+            <option value="Commercial Space">Commercial Space</option>
+            <option value="Hospitality">Hospitality</option>
+            <option value="Construction Management">Construction Management</option>
+            <option value="Other">Other</option>
           </select>
         </div>
         <div class="form-group">
           <label for="message">Message</label>
-          <textarea id="message" placeholder="Tell us about your vision…"></textarea>
+          <textarea id="message" name="Message" placeholder="Tell us about your vision…" required></textarea>
         </div>
         <div class="form-submit">
-          <button class="btn btn-primary" id="sendBtn">
+          <button type="submit" class="btn btn-primary" id="sendBtn">
             Send Message
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
         </div>
         <p id="formMsg"></p>
-      </div>
+      </form>
+
     </div>
   </div>
 </section>
@@ -790,40 +794,76 @@ footer p{font-size:.72rem;color:var(--grey);letter-spacing:.08em}
 
   document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
 
+  
   /* ── Contact form ── */
-  document.getElementById('sendBtn').addEventListener('click',()=>{
-    const fname=document.getElementById('fname').value.trim();
-    const email=document.getElementById('email').value.trim();
-    const msg=document.getElementById('message').value.trim();
-    const fmsg=document.getElementById('formMsg');
-    fmsg.style.display='none';
+document.getElementById('contactForm').addEventListener('submit', (e) => {
+  // منع الصفحة من إعادة التحميل التقليدية
+  e.preventDefault(); 
 
-    if(!fname||!email||!msg){
-      fmsg.textContent='Please fill in all required fields.';
-      fmsg.className='error';
-      fmsg.style.display='block';
-      return;
-    }
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-      fmsg.textContent='Please enter a valid email address.';
-      fmsg.className='error';
-      fmsg.style.display='block';
-      return;
-    }
+  const fname = document.getElementById('fname').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const msg = document.getElementById('message').value.trim();
+  const fmsg = document.getElementById('formMsg');
+  const btn = document.getElementById('sendBtn');
+  
+  fmsg.style.display = 'none';
 
-    const btn=document.getElementById('sendBtn');
-    btn.textContent='Sending…';
-    btn.disabled=true;
-    setTimeout(()=>{
-      fmsg.textContent='Thank you! Your message has been sent. We\'ll be in touch shortly.';
-      fmsg.className='success';
-      fmsg.style.display='block';
-      ['fname','lname','email','message'].forEach(id=>document.getElementById(id).value='');
-      document.getElementById('project').selectedIndex=0;
-      btn.textContent='Send Message';
-      btn.disabled=false;
-    },1400);
+  // التحقق من الحقول
+  if (!fname || !email || !msg) {
+    fmsg.textContent = 'Please fill in all required fields.';
+    fmsg.className = 'error';
+    fmsg.style.display = 'block';
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    fmsg.textContent = 'Please enter a valid email address.';
+    fmsg.className = 'error';
+    fmsg.style.display = 'block';
+    return;
+  }
+
+  // تغيير حالة الزرار أثناء الإرسال
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  // تجهيز البيانات لإرسالها كـ FormData تابعة للفورم نفسه
+  const formData = new FormData(e.target);
+
+  // إرسال البيانات فعلياً إلى Formspree عبر AJAX
+  fetch(e.target.action, {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'Accept': 'application/json'
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      // نجاح الإرسال
+      fmsg.textContent = "Thank you! Your message has been sent. We'll be in touch shortly.";
+      fmsg.className = 'success';
+      fmsg.style.display = 'block';
+      
+      // تفريغ الحقول
+      ['fname', 'lname', 'email', 'message'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('project').selectedIndex = 0;
+    } else {
+      // لو السيرفر رجع خطأ
+      throw new Error('Form submission failed');
+    }
+  })
+  .catch(error => {
+    // فشل بسبب النت أو الـ CORS لو شغال بـ file:/// مباشر
+    fmsg.textContent = 'Oops! There was a problem submitting your form. Please try again.';
+    fmsg.className = 'error';
+    fmsg.style.display = 'block';
+  })
+  .finally(() => {
+    // إعادة الزرار لوضعه الطبيعي في كل الحالات
+    btn.textContent = 'Send Message';
+    btn.disabled = false;
   });
+});
 
   /* ── Smooth scroll for anchors ── */
   document.querySelectorAll('a[href^="#"]').forEach(a=>{
